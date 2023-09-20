@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 import component.FormPanel;
+import component.MenuBar;
 import events.FormEvent;
 import interfaces.FormSubmitListener;
 import interfaces.MessageListener;
@@ -14,6 +15,7 @@ public class MainFrame extends JFrame {
 	private TextPanel textPanel;
 	private Toolbar toolbar;
 	private FormPanel formPanel;
+	private MenuBar menuBar;
 
 	public MainFrame() {
 		super("Hello World");
@@ -23,6 +25,7 @@ public class MainFrame extends JFrame {
 		textPanel = new TextPanel();
 		toolbar = new Toolbar();
 		formPanel = new FormPanel();
+		menuBar = new MenuBar();
 		
 		setupToolbar();
 		setupFormPanel();
@@ -30,6 +33,7 @@ public class MainFrame extends JFrame {
 		add(textPanel, BorderLayout.CENTER);
 		add(toolbar, BorderLayout.NORTH);
 		add(formPanel, BorderLayout.WEST);
+		setJMenuBar(menuBar);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(new Dimension(800, 600));
