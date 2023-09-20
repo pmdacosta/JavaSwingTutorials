@@ -124,7 +124,7 @@ public class FormPanel extends JPanel {
 		data.setName(nameField.getText());
 		data.setOccupation(occupationField.getText());
 		data.setAgeCategory(ageList.getSelectedValue());
-		data.setEmploymentCategory((EmploymentCategory)employmentComboBox.getSelectedItem());
+		data.setEmploymentCategory((EmploymentCategory) employmentComboBox.getSelectedItem());
 		data.isUsCitizen(usCitizenCheckBox.isSelected());
 		data.setTaxID(taxField.getText());
 
@@ -192,21 +192,12 @@ public class FormPanel extends JPanel {
 		Border outsideBorder = BorderFactory.createEmptyBorder(BORDER_TOP, BORDER_LEFT, BORDER_BOTTOM, BORDER_RIGHT);
 		setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 	}
-
-	private void postionGBCforLabel() {
+	
+	private void addLabel(JLabel label) {
 		gbc.gridx = 0;
 		gbc.anchor = GridBagConstraints.LINE_END;
 		gbc.insets = new Insets(0, 0, 0, 10);
-	}
-
-	private void addLabel(String label) {
-		postionGBCforLabel();
-		add(new JLabel(label), gbc);
-	}
-
-	private void addLabel(JLabel label) {
-		postionGBCforLabel();
-		add(label, gbc);
+		add((JLabel) label, gbc);
 	}
 
 	private void addComponent(JComponent component) {
@@ -217,45 +208,36 @@ public class FormPanel extends JPanel {
 	}
 
 	private void layoutComponents() {
+		class FormRow {
+			public JLabel label;
+			public JComponent component;
+
+			public FormRow(JLabel label, JComponent component) {
+				this.label = label;
+				this.component = component;
+			}
+
+			public FormRow(String label, JComponent component) {
+				this.label = new JLabel(label);
+				this.component = component;
+			}
+		}
+
+		FormRow[] components = { new FormRow("Name", nameField), new FormRow("Occupation", occupationField),
+				new FormRow("Age", ageList), new FormRow("Age", ageList), new FormRow("Employment", employmentComboBox),
+				new FormRow("US Citizen", usCitizenCheckBox), new FormRow(taxLabel, taxField) };
+
 		setLayout(new GridBagLayout());
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weighty = 1;
-
-		// FIRST ROW
 		gbc.gridy = 0;
 
-		addLabel("Name");
-		addComponent(nameField);
+		for (int i = 0; i < components.length; i++) {
+			gbc.gridy++;
+			addLabel(components[i].label);
+			addComponent(components[i].component);
+		}
 
-		// NEXT ROW
-		gbc.gridy++;
-
-		addLabel("Occupation");
-		addComponent(occupationField);
-
-		// NEXT ROW
-		gbc.gridy++;
-
-		addLabel("Age");
-		addComponent(ageList);
-
-		// NEXT ROW
-		gbc.gridy++;
-
-		addLabel("Employment");
-		addComponent(employmentComboBox);
-
-		// NEXT ROW
-		gbc.gridy++;
-		addLabel("US Citizen");
-		addComponent(usCitizenCheckBox);
-
-		// NEXT ROW
-		gbc.gridy++;
-		addLabel(taxLabel);
-		addComponent(taxField);
-
-		// NEXT ROW
 		gbc.gridy++;
 
 		gbc.weighty = 80;
