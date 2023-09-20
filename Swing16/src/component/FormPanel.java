@@ -224,7 +224,7 @@ public class FormPanel extends JPanel {
 		}
 
 		FormRow[] components = { new FormRow("Name", nameField), new FormRow("Occupation", occupationField),
-				new FormRow("Age", ageList), new FormRow("Age", ageList), new FormRow("Employment", employmentComboBox),
+				new FormRow("Age", ageList), new FormRow("Employment", employmentComboBox),
 				new FormRow("US Citizen", usCitizenCheckBox), new FormRow(taxLabel, taxField) };
 
 		setLayout(new GridBagLayout());
@@ -240,7 +240,7 @@ public class FormPanel extends JPanel {
 
 		gbc.gridy++;
 
-		gbc.weighty = 80;
+		gbc.weighty = 10;
 		gbc.gridx = 1;
 		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(submitButton, gbc);
