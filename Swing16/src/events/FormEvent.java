@@ -1,47 +1,23 @@
 package events;
 
+import data.FormData;
+
 public class FormEvent {
 
-	private String name;
-	private String occupation;
-	private int ageCategoryID;
-	private int employmentCategoryID;
-	private boolean usCitizen;
-	private String taxID;
+	private FormData data;
 
-	public FormEvent(String name, String occupation, int ageCategoryID, int employmentCategoryID, boolean usCitizen, String taxID) {
-		this.name = name;
-		this.occupation = occupation;
-		this.ageCategoryID = ageCategoryID;
-		this.employmentCategoryID = employmentCategoryID;
-		this.usCitizen = usCitizen;
-		this.taxID = taxID;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getOccupation() {
-		return occupation;
-	}
-
-	public int getAgeCategoryID() {
-		return ageCategoryID;
-	}
-
-	public int getEmploymentCategoryID() {
-		return employmentCategoryID;
+	public FormEvent(FormData data) {
+		this.data = data;
 	}
 
 	public String getAllData() {
 		StringBuilder string = new StringBuilder();
-		string.append(String.format("%-20s%-20s\n", "Name", name));
-		string.append(String.format("%-20s%-20s\n", "Occupation", occupation));
-		string.append(String.format("%-20s%-20s\n", "Age", ageCategoryID));
-		string.append(String.format("%-20s%-20s\n", "Employment", employmentCategoryID));
-		string.append(String.format("%-20s%-20s\n", "US Citizen", usCitizen ? "YES" : "NO"));
-		string.append(String.format("%-20s%-20s\n", "Tax ID", taxID));
+		string.append(String.format("%-20s%-20s\n", "Name", data.getName()));
+		string.append(String.format("%-20s%-20s\n", "Occupation", data.getOccupation()));
+		string.append(String.format("%-20s%-20s\n", "Age", data.getAgeCategory().getId()));
+		string.append(String.format("%-20s%-20s\n", "Employment", data.getEmploymentCategory().getId()));
+		string.append(String.format("%-20s%-20s\n", "US Citizen", data.isUsCitizen() ? "YES" : "NO"));
+		string.append(String.format("%-20s%-20s\n", "Tax ID", data.getTaxID()));
 		return string.toString();
 	}
 }

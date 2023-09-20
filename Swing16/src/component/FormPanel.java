@@ -25,6 +25,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import data.AgeCategory;
+import data.EmploymentCategory;
+import data.FormData;
 import events.FormEvent;
 import interfaces.FormSubmitListener;
 
@@ -117,19 +120,20 @@ public class FormPanel extends JPanel {
 	}
 
 	private void dispatchData() {
-		String name = nameField.getText();
-		String occupation = occupationField.getText();
-		AgeCategory ageCategory = ageList.getSelectedValue();
-		EmploymentCategory employmentCategory = (EmploymentCategory) employmentComboBox.getSelectedItem();
-		boolean usCitizen = usCitizenCheckBox.isSelected();
-		String taxID = usCitizen ? taxField.getText() : "N/A";
+		FormData data = new FormData();
+		data.setName(nameField.getText());
+		data.setOccupation(occupationField.getText());
+		data.setAgeCategory(ageList.getSelectedValue());
+		data.setEmploymentCategory((EmploymentCategory)employmentComboBox.getSelectedItem());
+		data.isUsCitizen(usCitizenCheckBox.isSelected());
+		data.setTaxID(taxField.getText());
 
 		// Validate data
-		if (!validateData(new String[] { name, occupation })) {
+		if (!validateData(new String[] { data.getName(), data.getOccupation() })) {
 			return;
 		}
 
-		FormEvent event = new FormEvent(name, occupation, ageCategory.getId(), employmentCategory.getId(), usCitizen, taxID);
+		FormEvent event = new FormEvent(data);
 		if (formSubmitListener != null) {
 			formSubmitListener.formSubmitted(event);
 		}
@@ -262,50 +266,5 @@ public class FormPanel extends JPanel {
 
 	public void setFormSubmitListener(FormSubmitListener formSubmitListener) {
 		this.formSubmitListener = formSubmitListener;
-	}
-}
-
-class AgeCategory {
-	private int id;
-	private String text;
-
-	public AgeCategory(int id, String text) {
-		this.id = id;
-		this.text = text;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public String toString() {
-		return text;
-	}
-}
-
-class EmploymentCategory {
-	private String type;
-	private int id;
-	private static int availableId = 0;
-
-	public EmploymentCategory(String name) {
-		this.type = name;
-		id = availableId++;
-	}
-
-	public String getName() {
-		return type;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public String toString() {
-		return type;
 	}
 }
