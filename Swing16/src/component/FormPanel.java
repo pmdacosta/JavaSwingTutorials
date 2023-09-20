@@ -126,7 +126,7 @@ public class FormPanel extends JPanel {
 		data.setAgeCategory(ageList.getSelectedValue());
 		data.setEmploymentCategory((EmploymentCategory) employmentComboBox.getSelectedItem());
 		data.isUsCitizen(usCitizenCheckBox.isSelected());
-		data.setTaxID(taxField.getText());
+		data.setTaxID(usCitizenCheckBox.isSelected() ? taxField.getText() : "");
 
 		// Validate data
 		if (!validateData(new String[] { data.getName(), data.getOccupation() })) {
