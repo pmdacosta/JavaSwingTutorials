@@ -18,6 +18,7 @@ public class FormEvent {
 		string.append(String.format("%-20s%-20s\n", "Employment", data.getEmploymentCategory().getId()));
 		string.append(String.format("%-20s%-20s\n", "US Citizen", data.isUsCitizen() ? "YES" : "NO"));
 		string.append(String.format("%-20s%-20s\n", "Tax ID", data.getTaxID()));
+		string.append(String.format("%-20s%-20s\n", "Gender", data.getGender()));
 		return string.toString();
 	}
 }

@@ -7,6 +7,15 @@ public class FormData {
 	private boolean isUsCitizen;
 	private EmploymentCategory employmentCategory;
 	private AgeCategory ageCategory;
+	private String gender;
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	public String getName() {
 		return name;
@@ -59,5 +68,5 @@ public class FormData {
 	public void setAgeCategory(AgeCategory ageCategory) {
 		this.ageCategory = ageCategory;
 	}
-
+	
 }

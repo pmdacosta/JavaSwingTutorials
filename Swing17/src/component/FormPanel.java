@@ -1,6 +1,5 @@
 package component;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -22,6 +21,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
@@ -30,6 +30,7 @@ import data.EmploymentCategory;
 import data.FormData;
 import events.FormEvent;
 import interfaces.FormSubmitListener;
+import theme.Colors;
 
 @SuppressWarnings("serial")
 public class FormPanel extends JPanel {
@@ -49,12 +50,13 @@ public class FormPanel extends JPanel {
 	private JCheckBox usCitizenCheckBox;
 	private JTextField taxField;
 	private JLabel taxLabel;
+	private GenderRadioGroup genderRadioGroup;
 
 	private FormSubmitListener formSubmitListener;
 
 	public FormPanel() {
 		setPreferredSize(new Dimension(300, getHeight()));
-		setBackground(new Color(255, 255, 179));
+		setBackground(Colors.backgroundPrimary);
 
 		nameField = new JTextField(COLUMNS);
 		occupationField = new JTextField(COLUMNS);
@@ -64,6 +66,7 @@ public class FormPanel extends JPanel {
 		usCitizenCheckBox = new JCheckBox();
 		taxField = new JTextField(COLUMNS);
 		taxLabel = new JLabel("Tax ID:");
+		genderRadioGroup = new GenderRadioGroup();
 
 		setupList();
 		setupComboBox();
@@ -110,9 +113,8 @@ public class FormPanel extends JPanel {
 
 		// Set the list's looks
 		ageList.setBorder(BorderFactory.createEtchedBorder());
-		Color backgroundColor = new Color(179, 179, 255);
-		ageList.setBackground(backgroundColor);
-		ageList.setSelectionBackground(backgroundColor.darker());
+		ageList.setBackground(Colors.backgroundSecondary);
+		ageList.setSelectionBackground(Colors.backgroundSelection);
 
 		// Set the default value for the list
 		ageList.setSelectedIndex(0);
@@ -127,6 +129,7 @@ public class FormPanel extends JPanel {
 		data.setEmploymentCategory((EmploymentCategory) employmentComboBox.getSelectedItem());
 		data.isUsCitizen(usCitizenCheckBox.isSelected());
 		data.setTaxID(usCitizenCheckBox.isSelected() ? taxField.getText() : "");
+		data.setGender(genderRadioGroup.getSelection().getActionCommand());
 
 		// Validate data
 		if (!validateData(new String[] { data.getName(), data.getOccupation() })) {
@@ -176,7 +179,6 @@ public class FormPanel extends JPanel {
 		// Setup a listener for the Enter Key to submit
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
 			public boolean dispatchKeyEvent(KeyEvent e) {
-				// TODO Auto-generated method stub
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 					dispatchData();
 					return true;
@@ -192,7 +194,7 @@ public class FormPanel extends JPanel {
 		Border outsideBorder = BorderFactory.createEmptyBorder(BORDER_TOP, BORDER_LEFT, BORDER_BOTTOM, BORDER_RIGHT);
 		setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 	}
-	
+
 	private void addLabel(JLabel label) {
 		gbc.gridx = 0;
 		gbc.anchor = GridBagConstraints.LINE_END;
@@ -225,7 +227,7 @@ public class FormPanel extends JPanel {
 
 		FormRow[] components = { new FormRow("Name", nameField), new FormRow("Occupation", occupationField),
 				new FormRow("Age", ageList), new FormRow("Employment", employmentComboBox),
-				new FormRow("US Citizen", usCitizenCheckBox), new FormRow(taxLabel, taxField) };
+				new FormRow("US Citizen", usCitizenCheckBox), new FormRow(taxLabel, taxField), };
 
 		setLayout(new GridBagLayout());
 		gbc.fill = GridBagConstraints.NONE;
@@ -238,6 +240,18 @@ public class FormPanel extends JPanel {
 			addComponent(components[i].component);
 		}
 
+		gbc.gridy++;
+		// RADIO ROW
+		gbc.weighty = 0.1;
+		addLabel(new JLabel("Gender"));
+		JRadioButton[] genderRadioButtons = genderRadioGroup.getButtons();
+		for (int i = 0; i < genderRadioButtons.length; i++) {
+			JRadioButton radioButton = genderRadioButtons[i];
+			addComponent(radioButton);
+			gbc.gridy++;
+		}
+
+		// LAST ROW
 		gbc.gridy++;
 
 		gbc.weighty = 10;
