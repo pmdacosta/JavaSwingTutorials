@@ -26,7 +26,7 @@ class FileMenu extends JMenu {
 	public FileMenu() {
 		super("File");
 		
-		String[] menuItemNames = {"Export Data", "Import Data"};
+		String[] menuItemNames = {"Export Data", "Import Data", "Exit"};
 		menuItems = new JMenuItem[menuItemNames.length];
 		for (int i = 0; i < menuItemNames.length; i++) {
 			menuItems[i] = new JMenuItem(menuItemNames[i]);
