@@ -1,5 +1,7 @@
 package component;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,10 +13,16 @@ import javax.swing.JMenuItem;
 public class MenuBar extends JMenuBar {
 	private Menu fileMenu;
 	private Menu windowMenu;
+	private Menu showMenu;
 
 	public MenuBar() {
-		fileMenu = new Menu("File", new String[]{ "Export Data", "Import Data", "/", "Exit" });
-		windowMenu = new Menu("Window", new String[]{});
+		// Menus
+		fileMenu = new Menu("File", new String[] { "Export Data", "Import Data", "/", "Exit" });
+		windowMenu = new Menu("Window", new String[] {});
+
+		// Sub Menus
+		showMenu = new Menu("Show", new String[] { "Person Form" });
+		windowMenu.add(showMenu);
 
 		add(fileMenu);
 		add(windowMenu);
@@ -39,5 +47,9 @@ class Menu extends JMenu {
 				add(menuItems.get(menuItemNames[i]));
 			}
 		}
+	}
+	
+	public void addActionListener(String menuName, ActionListener actionListener) {
+		menuItems.get(menuName).addActionListener(actionListener);
 	}
 }
