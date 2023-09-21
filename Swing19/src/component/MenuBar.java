@@ -8,11 +8,11 @@ import javax.swing.JMenuItem;
 public class MenuBar extends JMenuBar {
 	private FileMenu fileMenu;
 	private WindowMenu windowMenu;
-	
+
 	public MenuBar() {
 		fileMenu = new FileMenu();
 		windowMenu = new WindowMenu();
-		
+
 		add(fileMenu);
 		add(windowMenu);
 	}
@@ -25,12 +25,17 @@ class FileMenu extends JMenu {
 
 	public FileMenu() {
 		super("File");
-		
-		String[] menuItemNames = {"Export Data", "Import Data", "Exit"};
+
+		String[] menuItemNames = { "Export Data", "Import Data", "/", "Exit" };
 		menuItems = new JMenuItem[menuItemNames.length];
 		for (int i = 0; i < menuItemNames.length; i++) {
-			menuItems[i] = new JMenuItem(menuItemNames[i]);
-			add(menuItems[i]);
+			if (menuItemNames[i].equals("/")) {
+				// Add separator
+				addSeparator();
+			} else {
+				menuItems[i] = new JMenuItem(menuItemNames[i]);
+				add(menuItems[i]);
+			}
 		}
 	}
 }
