@@ -8,6 +8,8 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -58,6 +60,8 @@ public class FormPanel extends JPanel {
 		setPreferredSize(new Dimension(300, getHeight()));
 		setBackground(Colors.backgroundPrimary);
 
+		FormListener formListener = new FormListener();
+
 		nameField = new JTextField(COLUMNS);
 		occupationField = new JTextField(COLUMNS);
 		submitButton = new JButton("SUBMIT");
@@ -67,6 +71,12 @@ public class FormPanel extends JPanel {
 		taxField = new JTextField(COLUMNS);
 		taxLabel = new JLabel("Tax ID:");
 		genderRadioGroup = new GenderRadioGroup();
+
+		nameField.addKeyListener(formListener);
+		occupationField.addKeyListener(formListener);
+		usCitizenCheckBox.addActionListener(formListener);
+		taxField.addKeyListener(formListener);
+		submitButton.setEnabled(false);
 
 		setupList();
 		setupComboBox();
@@ -132,7 +142,7 @@ public class FormPanel extends JPanel {
 		data.setGender(genderRadioGroup.getSelection().getActionCommand());
 
 		// Validate data
-		if (!validateData(new String[] { data.getName(), data.getOccupation() })) {
+		if (!validData()) {
 			return;
 		}
 
@@ -143,7 +153,7 @@ public class FormPanel extends JPanel {
 
 	}
 
-	private boolean validateData(String data[]) {
+	private boolean noEmptyString(String data[]) {
 		for (int i = 0; i < data.length; i++) {
 			if (data[i].isEmpty()) {
 				return false;
@@ -262,5 +272,40 @@ public class FormPanel extends JPanel {
 
 	public void setFormSubmitListener(FormSubmitListener formSubmitListener) {
 		this.formSubmitListener = formSubmitListener;
+	}
+
+	private boolean validData() {
+		if (!noEmptyString(new String[] { nameField.getText(), occupationField.getText() })) {
+			return false;
+		}
+		if (usCitizenCheckBox.isSelected()) {
+			return noEmptyString(new String[] { taxField.getText() });
+		}
+		return true;
+	}
+
+	class FormListener implements ActionListener, KeyListener {
+
+		private void updateSubmitButtonState() {
+			submitButton.setEnabled(validData());
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			updateSubmitButtonState();
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			updateSubmitButtonState();
+		}
+
 	}
 }
