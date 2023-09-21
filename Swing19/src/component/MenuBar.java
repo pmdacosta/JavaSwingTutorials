@@ -9,12 +9,12 @@ import javax.swing.JMenuItem;
 
 @SuppressWarnings("serial")
 public class MenuBar extends JMenuBar {
-	private FileMenu fileMenu;
-	private WindowMenu windowMenu;
+	private Menu fileMenu;
+	private Menu windowMenu;
 
 	public MenuBar() {
-		fileMenu = new FileMenu();
-		windowMenu = new WindowMenu();
+		fileMenu = new Menu("File", new String[]{ "Export Data", "Import Data", "/", "Exit" });
+		windowMenu = new Menu("Window", new String[]{});
 
 		add(fileMenu);
 		add(windowMenu);
@@ -23,13 +23,12 @@ public class MenuBar extends JMenuBar {
 }
 
 @SuppressWarnings("serial")
-class FileMenu extends JMenu {
+class Menu extends JMenu {
 	private Map<String, JMenuItem> menuItems;
 
-	public FileMenu() {
-		super("File");
+	public Menu(String name, String[] menuItemNames) {
+		super(name);
 
-		String[] menuItemNames = { "Export Data", "Import Data", "/", "Exit" };
 		menuItems = new HashMap<String, JMenuItem>();
 		for (int i = 0; i < menuItemNames.length; i++) {
 			if (menuItemNames[i].equals("/")) {
@@ -40,22 +39,5 @@ class FileMenu extends JMenu {
 				add(menuItems.get(menuItemNames[i]));
 			}
 		}
-	}
-}
-
-@SuppressWarnings("serial")
-class WindowMenu extends JMenu {
-	public WindowMenu() {
-		super("Window");
-	}
-}
-
-class MenuItem {
-	String name;
-	JMenuItem item;
-	
-	public MenuItem(String name) {
-		this.name = name;
-		item = new JMenuItem(name);
 	}
 }
