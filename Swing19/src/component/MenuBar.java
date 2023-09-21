@@ -1,5 +1,8 @@
 package component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -21,20 +24,20 @@ public class MenuBar extends JMenuBar {
 
 @SuppressWarnings("serial")
 class FileMenu extends JMenu {
-	private JMenuItem[] menuItems;
+	private Map<String, JMenuItem> menuItems;
 
 	public FileMenu() {
 		super("File");
 
 		String[] menuItemNames = { "Export Data", "Import Data", "/", "Exit" };
-		menuItems = new JMenuItem[menuItemNames.length];
+		menuItems = new HashMap<String, JMenuItem>();
 		for (int i = 0; i < menuItemNames.length; i++) {
 			if (menuItemNames[i].equals("/")) {
 				// Add separator
 				addSeparator();
 			} else {
-				menuItems[i] = new JMenuItem(menuItemNames[i]);
-				add(menuItems[i]);
+				menuItems.put(menuItemNames[i], new JMenuItem(menuItemNames[i]));
+				add(menuItems.get(menuItemNames[i]));
 			}
 		}
 	}
@@ -44,5 +47,15 @@ class FileMenu extends JMenu {
 class WindowMenu extends JMenu {
 	public WindowMenu() {
 		super("Window");
+	}
+}
+
+class MenuItem {
+	String name;
+	JMenuItem item;
+	
+	public MenuItem(String name) {
+		this.name = name;
+		item = new JMenuItem(name);
 	}
 }
