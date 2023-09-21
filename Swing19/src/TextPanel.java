@@ -16,9 +16,9 @@ public class TextPanel extends JPanel {
 		textArea.setFont(new Font("DejaVu Sans Mono", Font.PLAIN, 20));
 		
 		scrollPane = new JScrollPane(textArea);
-		
+
 		setLayout(new BorderLayout());
-		
+
 		add(scrollPane, BorderLayout.CENTER);
 	}
 	
@@ -36,5 +36,9 @@ public class TextPanel extends JPanel {
 	
 	public void clear() {
 		textArea.setText(null);
+	}
+	
+	public void setVisible(boolean visible) {
+		scrollPane.setVisible(visible);
 	}
 }
