@@ -35,57 +35,64 @@ public class MenuBar extends JMenuBar {
 
 		// Menus
 		fileMenu = new Menu("File", new String[] { "Export Data", "Import Data", "/", "Exit" });
+		configureFileMenu();
+
+		windowMenu = new Menu("Window", new String[] {});
+		configureWindowMenu();
+
+		add(fileMenu);
+		add(windowMenu);
+	}
+
+	public void setCheckBoxMenuListener(CheckBoxMenuListener checkBoxMenuListener) {
+		this.checkBoxMenuListener = checkBoxMenuListener;
+	}
+
+	public void setExitListener(ExitListener exitListener) {
+		this.exitListner = exitListener;
+	}
+
+	private void configureFileMenu() {
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		fileMenu.setItemMnemonic("Exit", KeyEvent.VK_X);
-		fileMenu.setItemAccelerator("Exit", KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK | ActionEvent.SHIFT_MASK));
+		fileMenu.setItemAccelerator("Exit",
+				KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK | ActionEvent.SHIFT_MASK));
 		fileMenu.addActionListener("Exit", new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(exitListner != null) {
+				if (exitListner != null) {
 					exitListner.ExitTriggered();
 				}
 			}
 		});
 		fileMenu.addActionListener("Import Data", new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(fileChooser.showOpenDialog(MenuBar.this) == JFileChooser.APPROVE_OPTION) {
+				if (fileChooser.showOpenDialog(MenuBar.this) == JFileChooser.APPROVE_OPTION) {
 					System.out.println(fileChooser.getSelectedFile());
 				}
 			}
 		});
 		fileMenu.addActionListener("Export Data", new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(fileChooser.showSaveDialog(MenuBar.this) == JFileChooser.APPROVE_OPTION) {
+				if (fileChooser.showSaveDialog(MenuBar.this) == JFileChooser.APPROVE_OPTION) {
 					System.out.println(fileChooser.getSelectedFile());
 				}
 			}
 		});
+	}
 
-		windowMenu = new Menu("Window", new String[] {});
-
-		// Sub Menus
+	private void configureWindowMenu() {
 		showMenu = new Menu("Show", new String[] {});
 		JCheckBoxMenuItem personFormCheckBox = new JCheckBoxMenuItem("Person Form");
 		personFormCheckBox.setSelected(true);
 		personFormCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(checkBoxMenuListener != null) {
+				if (checkBoxMenuListener != null) {
 					checkBoxMenuListener.CheckBoxToggled(new CheckBoxEvent(personFormCheckBox.isSelected()));
 				}
 			}
 		});
 		showMenu.addItem(personFormCheckBox.getName(), personFormCheckBox);
 		windowMenu.add(showMenu);
-
-		add(fileMenu);
-		add(windowMenu);
-	}
-	
-	public void setCheckBoxMenuListener(CheckBoxMenuListener checkBoxMenuListener) {
-		this.checkBoxMenuListener = checkBoxMenuListener;
-	}
-	
-	public void setExitListener(ExitListener exitListener) {
-		this.exitListner = exitListener;
 	}
 }
 
@@ -107,16 +114,16 @@ class Menu extends JMenu {
 			}
 		}
 	}
-	
+
 	public void addItem(String name, JMenuItem menuItem) {
 		menuItems.put(name, menuItem);
 		add(menuItems.get(name));
 	}
-	
+
 	public void addActionListener(String itemName, ActionListener actionListener) {
 		menuItems.get(itemName).addActionListener(actionListener);
 	}
-	
+
 	public void setItemMnemonic(String itemName, int Mnemonic) {
 		menuItems.get(itemName).setMnemonic(Mnemonic);
 	}
